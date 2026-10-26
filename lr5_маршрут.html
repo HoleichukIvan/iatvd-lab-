@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <title>Маршрут обходу пам'яток - Львів (ЛР5)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; right: 0; left: 0; }
+        .num-label {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            color: white;
+            font-weight: bold;
+            font-size: 10px;
+        }
+        .legend-box {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            font-family: sans-serif;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map', { center: [49.8405, 24.0220], zoom: 14 });
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ | Data &copy; OpenStreetMap contributors, ODbL',
+            maxZoom: 18
+        }).addTo(map);
+
+        var roadCoords = [[49.8396299, 23.9951465], [49.8393243, 23.9956862], [49.8391915, 23.9960709], [49.837864, 23.9996499], [49.8376199, 23.9998994], [49.8375427, 24.000115], [49.8370319, 24.0014582], [49.8368883, 24.0018022], [49.8368484, 24.0017701], [49.8366331, 24.0020061], [49.8367347, 24.0025422], [49.8356456, 24.0034832], [49.8360665, 24.00461], [49.83544, 24.0052794], [49.8348029, 24.0072787], [49.8347416, 24.009518], [49.834724, 24.0102225], [49.8346986, 24.011238], [49.834685, 24.0128294], [49.8346824, 24.0139233], [49.8346853, 24.0144222], [49.8347013, 24.0167336], [49.8347078, 24.0170715], [49.8347227, 24.0178288], [49.8347256, 24.0188868], [49.8346904, 24.0191401], [49.8346218, 24.0200563], [49.8347321, 24.020512], [49.8355739, 24.0218535], [49.8361413, 24.0227555], [49.8373036, 24.0246209], [49.8373036, 24.0246209], [49.8389011, 24.0272002], [49.8390676, 24.0274903], [49.8398924, 24.0265406], [49.8405552, 24.0278555], [49.8407214, 24.02873], [49.8414706, 24.0282765], [49.8427892, 24.0274769], [49.8427892, 24.0274769], [49.8429636, 24.0287008], [49.8419674, 24.0292606], [49.8419674, 24.0292606], [49.8419674, 24.0292606], [49.8429636, 24.0287008], [49.8438482, 24.0283423], [49.84384, 24.0267999], [49.8440968, 24.0266843], [49.8446818, 24.0267995], [49.8447046, 24.0283314], [49.8447604, 24.02843], [49.8447575, 24.0292517], [49.8445179, 24.0319601], [49.8444171, 24.0331818], [49.8441644, 24.0336413], [49.8440608, 24.0338273], [49.8440608, 24.0338273], [49.8420337, 24.0353032], [49.8420337, 24.0353032], [49.8419531, 24.0363502], [49.8430952, 24.0360104], [49.8430952, 24.0360104], [49.8419531, 24.0363502], [49.8420337, 24.0353032], [49.8406792, 24.035985], [49.8406792, 24.035985], [49.8403074, 24.0364012], [49.8398145, 24.0360133], [49.8398145, 24.0360133], [49.8388131, 24.0353452], [49.8390372, 24.0344435], [49.8391323, 24.0340609], [49.8393113, 24.0330132], [49.8392992, 24.0320702], [49.839091, 24.0307045], [49.8379913, 24.0312142], [49.8375858, 24.029797], [49.8372622, 24.0289246], [49.837689, 24.0284558], [49.837373, 24.0280518], [49.8371002, 24.0273678], [49.8371002, 24.0273678], [49.837373, 24.0280518], [49.836966, 24.0284332], [49.8368416, 24.0282948], [49.8361703, 24.0290384], [49.836455, 24.0299827], [49.836501, 24.0303101], [49.8375858, 24.029797], [49.8381958, 24.0292683], [49.837937, 24.0286783], [49.8389011, 24.0272002], [49.8390676, 24.0274903], [49.8398924, 24.0265406], [49.8391963, 24.0252835], [49.8395862, 24.0246288], [49.8400695, 24.0237878], [49.8416267, 24.022897], [49.8413756, 24.0223576], [49.8407088, 24.0210266], [49.8400423, 24.0197778], [49.8395776, 24.0188794], [49.8416351, 24.0156942], [49.8415996, 24.0155992], [49.8415179, 24.0154034], [49.8411371, 24.0144525], [49.8401438, 24.0119341], [49.8397443, 24.010902], [49.839083, 24.0092151], [49.8390599, 24.0091541], [49.8386967, 24.0082235], [49.8383649, 24.0073941], [49.8381873, 24.0069474], [49.8379284, 24.0062501], [49.8375355, 24.0051179], [49.8376045, 24.0050062], [49.8376544, 24.004248], [49.8375604, 24.0031533], [49.8373598, 24.0022039], [49.8371057, 24.001992], [49.8370459, 24.001938], [49.8375097, 24.0004949], [49.837864, 23.9996499], [49.8391915, 23.9960709], [49.8394292, 23.995907], [49.8395213, 23.9958397], [49.8396138, 23.9958231], [49.8397133, 23.9958776], [49.8398132, 23.9959323], [49.8400715, 23.9958509], [49.8401359, 23.9958391], [49.8402245, 23.9954547], [49.8396299, 23.9951465]];
+        var straightCoords = [[49.8397377, 23.994340389962883], [49.837153, 24.025350046933703], [49.843126, 24.027942448896574], [49.8413948, 24.030729371654616], [49.8425792, 24.029531841713514], [49.84324135, 24.033772770986516], [49.842262500000004, 24.03272854808707], [49.84304055, 24.03454480829924], [49.8412623, 24.035276132972733], [49.8396341, 24.03707082750715], [49.83795295, 24.026929415935534], [49.8397377, 23.994340389962883]];
+
+        var straightLine = L.polyline(straightCoords, {
+            color: '#e53935',
+            weight: 2.5,
+            dashArray: '7, 7',
+            opacity: 0.85
+        }).addTo(map).bindPopup('Прямі відрізки між точками');
+
+        var roadLine = L.polyline(roadCoords, {
+            color: '#1565c0',
+            weight: 4.5,
+            opacity: 0.9
+        }).addTo(map).bindPopup('Маршрут по ребрах графа (10.25 км)');
+
+        
+    L.circleMarker([49.8397377, 23.994340389962883], {
+        radius: 9,
+        fillColor: '#d32f2f',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#0. СТАРТ: Головний вокзал</b>').bindTooltip('0', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.837153, 24.025350046933703], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#1. Львівська національна галерея мистецтв</b>').bindTooltip('1', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.843126, 24.027942448896574], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#2. Національний музей у Львові</b>').bindTooltip('2', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.8413948, 24.030729371654616], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#3. Львівський історичний музей</b>').bindTooltip('3', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.8425792, 24.029531841713514], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#4. Львівський Державний Природознавчий Музей</b>').bindTooltip('4', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.84324135, 24.033772770986516], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#5. Львівський музей історії релігії</b>').bindTooltip('5', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.842262500000004, 24.03272854808707], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#6. Кам\'яниця Корнякта</b>').bindTooltip('6', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.84304055, 24.03454480829924], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#7. Королівський арсенал</b>').bindTooltip('7', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.8412623, 24.035276132972733], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#8. Арсенал, Львівський державний історичний музей старовинної зброї</b>').bindTooltip('8', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.8396341, 24.03707082750715], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#9. Музей сакральної барокової скульптури Пінзеля</b>').bindTooltip('9', {permanent: true, direction: 'center', className: 'num-label'});
+    
+    L.circleMarker([49.83795295, 24.026929415935534], {
+        radius: 9,
+        fillColor: '#1565c0',
+        color: '#ffffff',
+        weight: 2,
+        opacity: 1,
+        fillOpacity: 0.95
+    }).addTo(map).bindPopup('<b>#10. Палац Потоцьких</b>').bindTooltip('10', {permanent: true, direction: 'center', className: 'num-label'});
+    
+
+        var legend = L.control({position: 'bottomright'});
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend-box');
+            div.innerHTML = '<b>Маршрут (Львів, 10 пам\'яток)</b><br>' +
+                            '<span style="color:#1565c0; font-weight:bold;">&#9644;&#9644;</span> По ребрах графа (10,25 км)<br>' +
+                            '<span style="color:#e53935; font-weight:bold;">- - -</span> Прямі відрізки між точками<br>' +
+                            '<span style="color:#d32f2f;">&#9679;</span> 0 - СТАРТ: Головний вокзал';
+            return div;
+        };
+        legend.addTo(map);
+        map.fitBounds(roadLine.getBounds(), {padding: [30, 30]});
+    </script>
+</body>
+</html>
